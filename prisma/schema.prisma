@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/db/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum role {
+  USER
+  OWNER
+}
+
+enum Status {
+  PENDING        
+  CONFIRMED      
+  PREPARING      
+  READY        
+  SHIPPED        
+  DELIVERED      
+  CANCELLED      
+}
+
+enum RequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model users {
+  id       Int    @id @default(autoincrement())
+  userName String @db.VarChar(150)
+  email    String @db.VarChar(150) @unique
+  userAddress   String @db.VarChar(255)
+  role     role   @default(USER)
+  password  String @db.VarChar(255)
+
+  stores stores []
+  orders Orders []
+  request StoreRequest[]
+}
+
+model stores {
+  idStore Int @id @default(autoincrement())
+  nameStore String @db.VarChar(150)
+  contactEmail String @db.VarChar(150) 
+  cnpj String @db.VarChar(14) @unique
+  storeAddress String @db.VarChar(255)
+  category String @db.VarChar(100)
+  createdAt DateTime @default(now())
+  ownerId Int 
+  owner users @relation(fields: [ownerId], references: [id])
+
+  order Orders[]
+  products Products []
+  
+}
+
+model Products {
+  id Int @id @default(autoincrement())
+  name String @db.VarChar(70)
+  description String @db.VarChar(300)
+  price Decimal @db.Decimal(10, 2)
+  idStore Int
+  store stores @relation(fields: [idStore], references: [idStore])
+}
+
+model Orders {
+  idOrder Int @id @default(autoincrement())
+  status Status @default(PENDING)
+  total Decimal @db.Decimal(10, 2)
+  createdAt DateTime @default(now())
+  userId Int
+  storeId Int
+
+  User users @relation(fields: [userId], references: [id])
+  Store stores @relation(fields: [storeId], references: [idStore])
+
+  content ContentOrder?
+
+}
+
+model ContentOrder {
+  id Int @id @default(autoincrement())
+  orderId Int @unique
+
+  order Orders @relation(fields: [orderId], references: [idOrder])
+
+  data Json
+  
+}
+
+model StoreRequest {
+  id Int @id @default(autoincrement())
+  userId Int 
+  nameStore String @db.VarChar(150)
+  contactEmail String @db.VarChar(150) 
+  cnpj String @db.VarChar(14)
+  storeAddress String @db.VarChar(255)
+  category String @db.VarChar(100)
+  status RequestStatus @default(PENDING)     
+  createdAt DateTime @default(now())
+
+  user users @relation(fields: [userId], references: [id])
+}
