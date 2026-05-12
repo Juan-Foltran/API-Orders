@@ -4,6 +4,7 @@ import { addUser } from '../../models/users/create.js';
 
 export const createUser = async (req: Request, res: Response) => {
   const result = createUserSchema.safeParse(req.body);
+
   if (!result.success) {
     return res.status(400).json({
       errors: result.error.flatten().fieldErrors,

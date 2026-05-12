@@ -11,6 +11,7 @@ const userExists = async (userEmail: string) => {
 
   return data;
 };
+
 const createUser = async (email: string, password: string, userAddress: string, userName: string) => {
   const user = await prisma.users.create({
     data: {
@@ -22,6 +23,7 @@ const createUser = async (email: string, password: string, userAddress: string, 
   });
   return user;
 };
+
 export const addUser = async (data: DataCreate) => {
   const exists = await userExists(data.email);
   if (exists) {
