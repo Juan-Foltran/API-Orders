@@ -5,3 +5,8 @@ export type DataCreate = {
   userAddress: string;
   userName: string;
 };
+// type login
+export type DataLogin = {
+  email: string;
+  password: string;
+};
