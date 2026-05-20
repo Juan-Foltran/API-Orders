@@ -1,4 +1,4 @@
-import express, { type Request, type Response } from 'express';
+import { type Request, type Response } from 'express';
 import { createUserSchema } from '../../schemas/createUser.schema.js';
 import { addUser } from '../../models/users/create.model.js';
 
@@ -24,7 +24,7 @@ export const createUser = async (req: Request, res: Response) => {
       });
     }
     return res.status(500).json({
-      message: 'Erro desconhecido',
+      message: 'Erro interno no servidor',
     });
   }
 };
