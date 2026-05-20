@@ -15,12 +15,12 @@ export const auth = async (dataLogin: DataLogin) => {
   });
 
   if (!user) {
-    throw new Error('Usuário não existe');
+    throw new Error('Email ou senha inválido');
   }
   const compare = await bcrypt.compare(dataLogin.password, user.password);
 
   if (!compare) {
-    throw new Error('Senha inválida');
+    throw new Error('Email ou senha inválido');
   }
   const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string, {
     expiresIn: '1m',
