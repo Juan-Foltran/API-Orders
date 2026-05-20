@@ -27,7 +27,7 @@ const createUser = async (email: string, password: string, userAddress: string, 
 export const addUser = async (data: DataCreate) => {
   const exists = await userExists(data.email);
   if (exists) {
-    throw new Error('Usuário já existe');
+    throw new Error('Já existe um usuário com esse email');
   }
 
   try {
