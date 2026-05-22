@@ -6,5 +6,6 @@ import { type Request, type Response } from 'express';
 
 export const route = Router();
 
+// routes users
 route.post('/createUser', createUser);
 route.post('/login', login);
