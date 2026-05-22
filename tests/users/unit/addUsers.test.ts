@@ -10,7 +10,7 @@ jest.unstable_mockModule('../../../src/db/client.js', () => ({
   prisma: prismaMock,
 }));
 
-const { addUser } = await import('../../../src/models/users/create');
+const { addUser } = await import('../../../src/models/users/create.model');
 
 describe('create user', () => {
   it('create user successfuly', async () => {
@@ -58,7 +58,7 @@ describe('create user', () => {
 
     prismaMock.users.findUnique.mockResolvedValue(fakeUser);
 
-    await expect(addUser(dataUser)).rejects.toThrow('Usuário já existe');
+    await expect(addUser(dataUser)).rejects.toThrow('Já existe um usuário com esse email');
     expect(prismaMock.users.create).not.toHaveBeenCalled();
   });
 });

@@ -47,7 +47,7 @@ describe('POST /createUser', () => {
 
     expect(response2.status).toBe(400);
     expect(response2.body).toEqual({
-      message: 'Usuário já existe',
+      message: 'Já existe um usuário com esse email',
     });
   });
 
