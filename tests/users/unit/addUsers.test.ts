@@ -15,7 +15,7 @@ const { addUser } = await import('../../../src/models/users/create.model');
 describe('create user', () => {
   it('create user successfuly', async () => {
     const dataUser: DataCreate = {
-      email: 'test@example.com',
+      email: 'create_test_001@example.com',
       password: 'test123',
       userAddress: 'Rua A, numero 1234',
       userName: 'Test',
@@ -44,7 +44,7 @@ describe('create user', () => {
 
   it('create user without success', async () => {
     const dataUser: DataCreate = {
-      email: 'test@example.com',
+      email: 'create_test_002@example.com',
       password: 'test123',
       userAddress: 'Rua A, numero 1234',
       userName: 'Test',
