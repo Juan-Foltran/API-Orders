@@ -96,7 +96,7 @@ model StoreRequest {
   userId Int 
   nameStore String @db.VarChar(150)
   contactEmail String @db.VarChar(150) 
-  cnpj String @db.VarChar(14)
+  cnpj String @db.VarChar(14) @unique
   storeAddress String @db.VarChar(255)
   category String @db.VarChar(100)
   status RequestStatus @default(PENDING)     
