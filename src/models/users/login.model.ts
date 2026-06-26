@@ -11,6 +11,7 @@ export const auth = async (dataLogin: DataLogin) => {
     select: {
       password: true,
       id: true,
+      role: true,
     },
   });
 
@@ -22,8 +23,8 @@ export const auth = async (dataLogin: DataLogin) => {
   if (!compare) {
     throw new Error('Email ou senha inválido');
   }
-  const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string, {
-    expiresIn: '1m',
+  const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET as string, {
+    expiresIn: '10m',
   });
 
   return token;
