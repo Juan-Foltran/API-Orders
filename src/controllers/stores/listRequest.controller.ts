@@ -1,5 +1,5 @@
 import { type Request, type Response } from 'express';
-import { listRequest } from '../../models/stores/listRequests.js';
+import { listRequest } from '../../models/stores/listRequests.model.js';
 
 export const listing = async (req: Request, res: Response) => {
   try {
