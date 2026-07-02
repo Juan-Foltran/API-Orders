@@ -6,3 +6,9 @@ export type DataRequest = {
   storeAddress: string;
   category: string;
 };
+
+export type createProduct = {
+  title: string;
+  description: string;
+  price: number;
+};
