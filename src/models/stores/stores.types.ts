@@ -8,6 +8,7 @@ export type DataRequest = {
 };
 
 export type createProduct = {
+  idStore: number;
   title: string;
   description: string;
   price: number;
