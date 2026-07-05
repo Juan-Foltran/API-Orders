@@ -7,6 +7,7 @@ import { listing } from '../controllers/stores/listRequest.controller.js';
 import { authAdm } from '../middlewares/authAdm.middleware.js';
 import { authOwner } from '../middlewares/authOwner.middleware.js';
 import { creation } from '../controllers/stores/createProducts.controller.js';
+import { listMyRequests } from '../controllers/stores/statusRequest.controller.js';
 
 export const route = Router();
 
@@ -16,7 +17,8 @@ route.post('/login', login);
 
 //route stores
 route.post('/requestStore', authMiddleware, newRequest);
+route.get('/requestStore/me', authMiddleware, listMyRequests);
+route.post('/post-new-product', authOwner, creation);
 
 // Admin routes
 route.get('/requests', authAdm, listing);
-route.post('/post-new-product', authOwner, creation);
