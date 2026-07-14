@@ -7,7 +7,7 @@ jest.unstable_mockModule('../../../src/db/client.js', () => ({
   prisma: prismaMock,
 }));
 
-const { listRequest } = await import('../../../src/models/stores/listRequests');
+const { listRequest } = await import('../../../src/models/adm/listRequests.model');
 
 describe('model test of listing request for create store', () => {
   const requestsMock = [
