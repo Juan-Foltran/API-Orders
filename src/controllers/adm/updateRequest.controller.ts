@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express';
-import { verification, creationStore, aproveOrReject } from '../../models/adm/updateRequest.model.js';
-import { schemaAproveOrReject } from '../../schemas/aproveOrRejectRequests.schema.js';
+import { verification, creationStore, aproveOrReject, Role, updateRole } from '../../models/adm/updateRequest.model.js';
+import { schemaAproveOrReject } from '../../schemas/updateRequests.schema.js';
 
 export const updateRequest = async (req: Request, res: Response) => {
   const result = schemaAproveOrReject.safeParse(req.body);
@@ -46,6 +46,12 @@ export const updateRequest = async (req: Request, res: Response) => {
         return res.status(500).json({
           message: 'Não foi possível criar a loja no momento.',
         });
+      }
+
+      const userRole = await Role(verificationStore.userId);
+
+      if (userRole === 'USER') {
+        await updateRole(verificationStore.userId, 'OWNER');
       }
 
       return res.status(201).json({

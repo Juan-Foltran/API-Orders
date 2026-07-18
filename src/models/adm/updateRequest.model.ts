@@ -14,6 +14,30 @@ export const aproveOrReject = async (id: number, status: 'APPROVED' | 'REJECTED'
   return update.status;
 };
 
+export const Role = async (userId: number): Promise<'USER' | 'OWNER' | 'ADMIN' | null> => {
+  const result = await prisma.users.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      role: true,
+    },
+  });
+
+  return result?.role ?? null;
+};
+
+export const updateRole = async (userId: number, role: 'USER' | 'OWNER' | 'ADMIN') => {
+  await prisma.users.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      role,
+    },
+  });
+};
+
 export const verification = async (id: number) => {
   const result = await prisma.storeRequest.findUnique({
     where: {
