@@ -1,3 +1,4 @@
+//create new request
 export type DataRequest = {
   userId: number;
   nameStore: string;
@@ -7,9 +8,16 @@ export type DataRequest = {
   category: string;
 };
 
+//create product type
 export type createProduct = {
   idStore: number;
   title: string;
   description: string;
   price: number;
+};
+
+//delete product type
+export type deleteProduct = {
+  storeId: number;
+  poductId: number;
 };
