@@ -11,13 +11,22 @@ export const deleteProducts = async (product: deleteProduct) => {
       select: {
         id: true,
         name: true,
-        store: true,
+        store: {
+          select: {
+            nameStore: true,
+          },
+        },
       },
     });
 
     return deleting;
   } catch (err) {
     console.log(err);
+    if (err instanceof Error) {
+      if (err.message.includes('not found') || err.message.includes('P2025')) {
+        throw new Error('Esse produto não existe');
+      }
+    }
     throw new Error('Falha ao deletar o produto');
   }
 };
