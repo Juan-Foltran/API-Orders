@@ -9,6 +9,7 @@ import { authOwner } from '../middlewares/authOwner.middleware.js';
 import { creation } from '../controllers/stores/createProducts.controller.js';
 import { listMyRequests } from '../controllers/stores/statusRequest.controller.js';
 import { updateRequest } from '../controllers/adm/updateRequest.controller.js';
+import { del } from '../controllers/stores/deletePorducts.controller.js';
 
 export const route = Router();
 
@@ -19,7 +20,8 @@ route.post('/login', login);
 //route stores
 route.post('/requestStore', authMiddleware, newRequest);
 route.get('/requestStore/me', authMiddleware, listMyRequests);
-route.post('/post-new-product', authOwner, creation);
+route.post('/product/create', authOwner, creation);
+route.delete('/product/delete', authOwner, del);
 
 // Admin routes
 route.get('/requests', authAdm, listing);
