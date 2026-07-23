@@ -22,7 +22,7 @@ route.post('/login', login);
 route.post('/requestStore', authMiddleware, newRequest);
 route.get('/requestStore/me', authMiddleware, listMyRequests);
 route.post('/product/create', authOwner, creation);
-route.delete('/product/delete', authOwner, del);
+route.delete('/product/delete/:storeId', authOwner, del);
 route.get('/product/list/:storeId', authOwner, listingProducts);
 
 // Admin routes

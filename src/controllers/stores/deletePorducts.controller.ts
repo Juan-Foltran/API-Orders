@@ -1,25 +1,30 @@
-import { deleteProductSchema } from '../../schemas/deleteProducts.schema.js';
+import { deleteProductSchema, paramsIdDeleteProductSchema } from '../../schemas/deleteProducts.schema.js';
 import { deleteProducts } from '../../models/stores/deleteProducts.model.js';
 import { getStores } from '../../models/stores/createProducts.model.js';
 import { type Request, type Response } from 'express';
 
 export const del = async (req: Request, res: Response) => {
-  const result = deleteProductSchema.safeParse(req.body);
+  const paramsResult = paramsIdDeleteProductSchema.safeParse(req.params);
+  const bodyResult = deleteProductSchema.safeParse(req.body);
   const id: number = res.locals.user.id;
 
-  if (!result.success) {
-    res.status(400).json({
-      errors: result.error.flatten().fieldErrors,
+  if (!bodyResult.success) {
+    return res.status(400).json({
+      errors: bodyResult.error.flatten().fieldErrors,
     });
-    return;
   }
 
-  const data = result.data;
+  if (!paramsResult.success) {
+    return res.status(400).json({
+      errors: paramsResult.error.flatten().fieldErrors,
+    });
+  }
+
+  const { storeId } = paramsResult.data;
+  const data = bodyResult.data;
 
   try {
     const stores = await getStores(id);
-
-    const storeId = data.storeId;
 
     let storeFound = false;
 
@@ -36,12 +41,13 @@ export const del = async (req: Request, res: Response) => {
     }
 
     const dataProduct = {
-      storeId: data.storeId,
+      storeId: storeId,
       poductId: data.productId,
     };
 
     const deletingProduct = await deleteProducts(dataProduct);
-    return res.status(200).json(deletingProduct);
+
+    return res.status(200).json({ message: `Produto ${deletingProduct.name} deletado com sucesso` });
   } catch (err) {
     if (err instanceof Error) {
       return res.status(400).json({
