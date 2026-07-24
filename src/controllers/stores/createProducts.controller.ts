@@ -1,8 +1,9 @@
 import { type Request, type Response } from 'express';
 import { createProducts, getStores } from '../../models/stores/createProducts.model.js';
-import { createProductSchema } from '../../schemas/createProducts.schema.js';
+import { createProductSchema, paramsIdCreateProductSchema } from '../../schemas/createProducts.schema.js';
 
 export const creation = async (req: Request, res: Response) => {
+  const paramsResult = paramsIdCreateProductSchema.safeParse(req.params);
   const result = createProductSchema.safeParse(req.body);
   const id: number = res.locals.user.id;
 
@@ -13,12 +14,17 @@ export const creation = async (req: Request, res: Response) => {
     return;
   }
 
+  if (!paramsResult.success) {
+    return res.status(400).json({
+      errors: paramsResult.error.flatten().fieldErrors,
+    });
+  }
+
+  const { storeId } = paramsResult.data;
   const data = result.data;
 
   try {
     const stores = await getStores(id);
-
-    const storeId = data.idStore;
 
     let storeFound = false;
 
@@ -34,7 +40,14 @@ export const creation = async (req: Request, res: Response) => {
       });
     }
 
-    const createNewProduct = await createProducts(data);
+    const dataCreation = {
+      idStore: storeId,
+      title: data.title,
+      description: data.description,
+      price: data.price,
+    };
+
+    const createNewProduct = await createProducts(dataCreation);
     return res.status(201).json(createNewProduct);
   } catch (err) {
     if (err instanceof Error) {

@@ -21,7 +21,7 @@ route.post('/login', login);
 //route stores
 route.post('/requestStore', authMiddleware, newRequest);
 route.get('/requestStore/me', authMiddleware, listMyRequests);
-route.post('/product/create', authOwner, creation);
+route.post('/product/create/:storeId', authOwner, creation);
 route.delete('/product/delete/:storeId', authOwner, del);
 route.get('/product/list/:storeId', authOwner, listingProducts);
 
