@@ -15,7 +15,7 @@ import { listing } from '../controllers/adm/listRequest.controller.js';
 export const route = Router();
 
 // routes users
-route.post('/createUser', createUser);
+route.post('/user/create', createUser);
 route.post('/login', login);
 
 //route stores
@@ -27,4 +27,4 @@ route.get('/product/list/:storeId', authOwner, listingProducts);
 
 // Admin routes
 route.get('/requests', authAdm, listing);
-route.post('/updateRequest', authAdm, updateRequest);
+route.post('/requests/update', authAdm, updateRequest);
