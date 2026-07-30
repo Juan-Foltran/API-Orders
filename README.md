@@ -94,6 +94,7 @@ A API será iniciada na porta `3333`.
 | `POST`   | `/product/create/:storeId` | Cria um produto em uma loja do vendedor autenticado. [Detalhes](#post-productcreatestoreid)                        |
 | `DELETE` | `/product/delete/:storeId` | Deleta um produto de uma loja do vendedor autenticado. [Detalhes](#delete-productdeletestoreid)                    |
 | `GET`    | `/product/list/:storeId`   | Lista os produtos de uma loja do vendedor autenticado. [Detalhes](#get-productliststoreid)                         |
+| `PATCH`  | `/product/update/:storeId` | Atualiza um produto de uma loja do vendedor autenticado. [Detalhes](#patch-productupdatestoreid)                   |
 | `GET`    | `/requests`                | Lista todas as solicitações de lojas. Rota exclusiva para administradores. [Detalhes](#get-requests)               |
 | `POST`   | `/requests/update`         | Atualiza o status de uma solicitação de loja. Rota exclusiva para administradores. [Detalhes](#post-updaterequest) |
 
@@ -231,6 +232,39 @@ Lista os produtos de uma loja pertencente ao vendedor autenticado. Exemplo: `htt
 
 - **200 OK**: Lista de produtos retornada com sucesso.
 - **400 Bad Request**: ID da loja inválido.
+- **401 Unauthorized**: Usuário não autenticado.
+- **403 Forbidden**: Usuário não é vendedor ou a loja não pertence ao usuário autenticado.
+- **500 Server Error**: Erro interno no servidor.
+
+<h3 id="patch-productupdatestoreid">/product/update/:storeId</h3>
+
+#### Descrição
+
+Atualiza um produto de uma loja pertencente ao vendedor autenticado. Esta rota exige que o usuário tenha a role `OWNER`.
+
+Exemplo: `http://localhost:3333/product/update/1`.
+
+#### Corpo da Requisição
+
+```json
+{
+  "productId": 1,
+  "title": "Produto Atualizado",
+  "description": "Descrição atualizada do produto",
+  "price": 29.9
+}
+```
+
+O campo `productId` é obrigatório. Pelo menos um dos campos abaixo deve ser enviado para atualização:
+
+- `title`
+- `description`
+- `price`
+
+#### Possíveis Respostas:
+
+- **200 OK**: Produto atualizado com sucesso.
+- **400 Bad Request**: Dados inválidos, produto inexistente ou falha ao atualizar produto.
 - **401 Unauthorized**: Usuário não autenticado.
 - **403 Forbidden**: Usuário não é vendedor ou a loja não pertence ao usuário autenticado.
 - **500 Server Error**: Erro interno no servidor.
