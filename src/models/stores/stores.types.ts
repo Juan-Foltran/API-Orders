@@ -21,3 +21,12 @@ export type deleteProduct = {
   storeId: number;
   poductId: number;
 };
+
+//update product type
+export type updateProduct = {
+  storeId: number;
+  id: number;
+  title?: string | undefined;
+  description?: string | undefined;
+  price?: number | undefined;
+};

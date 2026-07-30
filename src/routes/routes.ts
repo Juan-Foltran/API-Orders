@@ -11,6 +11,7 @@ import { listMyRequests } from '../controllers/stores/statusRequest.controller.j
 import { updateRequest } from '../controllers/adm/updateRequest.controller.js';
 import { del } from '../controllers/stores/deletePorducts.controller.js';
 import { listing } from '../controllers/adm/listRequest.controller.js';
+import { update } from '../controllers/stores/updateProducts.controller.js';
 
 export const route = Router();
 
@@ -24,6 +25,7 @@ route.get('/requestStore/me', authMiddleware, listMyRequests);
 route.post('/product/create/:storeId', authOwner, creation);
 route.delete('/product/delete/:storeId', authOwner, del);
 route.get('/product/list/:storeId', authOwner, listingProducts);
+route.patch('/product/update/:storeId', authOwner, update);
 
 // Admin routes
 route.get('/requests', authAdm, listing);
