@@ -12,12 +12,14 @@ import { updateRequest } from '../controllers/adm/updateRequest.controller.js';
 import { del } from '../controllers/stores/deletePorducts.controller.js';
 import { listing } from '../controllers/adm/listRequest.controller.js';
 import { update } from '../controllers/stores/updateProducts.controller.js';
+import { listingStores } from '../controllers/users/listStores.controller.js';
 
 export const route = Router();
 
 // routes users
 route.post('/user/create', createUser);
 route.post('/login', login);
+route.get('/stores', authMiddleware, listingStores);
 
 //route stores
 route.post('/requestStore', authMiddleware, newRequest);
