@@ -89,6 +89,7 @@ A API será iniciada na porta `3333`.
 | :------- | :------------------------- | :----------------------------------------------------------------------------------------------------------------- |
 | `POST`   | `/user/create`             | Cria um novo usuário. [Detalhes](#post-createuser)                                                                 |
 | `POST`   | `/login`                   | Realiza login e salva o token JWT em cookie. [Detalhes](#post-login)                                               |
+| `GET`    | `/stores`                  | Lista as lojas cadastradas para o usuário autenticado. [Detalhes](#get-stores)                                     |
 | `POST`   | `/requestStore`            | Cria uma solicitação de loja para o usuário autenticado. [Detalhes](#post-requeststore)                            |
 | `GET`    | `/requestStore/me`         | Lista as solicitações de loja do usuário autenticado. [Detalhes](#get-requeststoreme)                              |
 | `POST`   | `/product/create/:storeId` | Cria um produto em uma loja do vendedor autenticado. [Detalhes](#post-productcreatestoreid)                        |
@@ -133,6 +134,31 @@ A API será iniciada na porta `3333`.
 - **200 OK**: Login realizado com sucesso e token salvo no cookie `token`.
 - **400 Bad Request**: Email ou senha não enviados.
 - **401 Unauthorized**: Email ou senha inválidos.
+- **500 Server Error**: Erro interno no servidor.
+
+<h3 id="get-stores">/stores</h3>
+
+#### Descrição
+
+Lista as lojas disponíveis. Esta rota exige que o usuário esteja autenticado.
+
+#### Exemplo de Resposta
+
+```json
+[
+  {
+    "idStore": 1,
+    "nameStore": "Minha Loja",
+    "category": "Lanches",
+    "storeAddress": "Rua da Loja, numero 456"
+  }
+]
+```
+
+#### Possíveis Respostas:
+
+- **200 OK**: Lista de lojas retornada com sucesso.
+- **401 Unauthorized**: Usuário não autenticado ou token inválido.
 - **500 Server Error**: Erro interno no servidor.
 
 <h3 id="post-requeststore">/requestStore</h3>
