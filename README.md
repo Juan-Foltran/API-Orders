@@ -4,7 +4,7 @@ Uma API construída com **Node.js**, **Express**, **TypeScript**, **Prisma** e *
 
 ## 📌 Sobre o Projeto
 
-Este projeto é uma API desenvolvida para controlar o cadastro de usuários, autenticação, solicitação de criação de lojas e gerenciamento de produtos por vendedores. Usuários podem solicitar a criação de uma loja, administradores podem aprovar ou rejeitar essas solicitações e vendedores podem cadastrar, listar e deletar produtos das suas próprias lojas.
+Este projeto é uma API desenvolvida para controlar o cadastro de usuários, autenticação, solicitação de criação de lojas e gerenciamento de produtos por vendedores. Usuários autenticados podem listar lojas e visualizar produtos disponíveis, usuários podem solicitar a criação de uma loja, administradores podem aprovar ou rejeitar essas solicitações e vendedores podem cadastrar, listar, atualizar e deletar produtos das suas próprias lojas.
 
 ## 🛠️ Tecnologias e Ferramentas Utilizadas
 
@@ -90,6 +90,7 @@ A API será iniciada na porta `3333`.
 | `POST`   | `/user/create`             | Cria um novo usuário. [Detalhes](#post-createuser)                                                                 |
 | `POST`   | `/login`                   | Realiza login e salva o token JWT em cookie. [Detalhes](#post-login)                                               |
 | `GET`    | `/stores`                  | Lista as lojas cadastradas para o usuário autenticado. [Detalhes](#get-stores)                                     |
+| `GET`    | `/stores/:storeId/products` | Lista os produtos de uma loja para o usuário autenticado. [Detalhes](#get-storesstoreidproducts)                  |
 | `POST`   | `/requestStore`            | Cria uma solicitação de loja para o usuário autenticado. [Detalhes](#post-requeststore)                            |
 | `GET`    | `/requestStore/me`         | Lista as solicitações de loja do usuário autenticado. [Detalhes](#get-requeststoreme)                              |
 | `POST`   | `/product/create/:storeId` | Cria um produto em uma loja do vendedor autenticado. [Detalhes](#post-productcreatestoreid)                        |
@@ -159,6 +160,35 @@ Lista as lojas disponíveis. Esta rota exige que o usuário esteja autenticado.
 
 - **200 OK**: Lista de lojas retornada com sucesso.
 - **401 Unauthorized**: Usuário não autenticado ou token inválido.
+- **500 Server Error**: Erro interno no servidor.
+
+<h3 id="get-storesstoreidproducts">/stores/:storeId/products</h3>
+
+#### Descrição
+
+Lista os produtos de uma loja existente. Esta rota exige que o usuário esteja autenticado.
+
+Exemplo: `http://localhost:3333/stores/1/products`.
+
+#### Exemplo de Resposta
+
+```json
+[
+  {
+    "id": 1,
+    "name": "Produto Exemplo",
+    "description": "Descrição do produto exemplo",
+    "price": "19.90"
+  }
+]
+```
+
+#### Possíveis Respostas:
+
+- **200 OK**: Lista de produtos retornada com sucesso.
+- **400 Bad Request**: ID da loja inválido.
+- **401 Unauthorized**: Usuário não autenticado ou token inválido.
+- **404 Not Found**: Loja não encontrada.
 - **500 Server Error**: Erro interno no servidor.
 
 <h3 id="post-requeststore">/requestStore</h3>
