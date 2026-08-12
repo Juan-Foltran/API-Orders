@@ -13,6 +13,7 @@ import { del } from '../controllers/stores/deletePorducts.controller.js';
 import { listing } from '../controllers/adm/listRequest.controller.js';
 import { update } from '../controllers/stores/updateProducts.controller.js';
 import { listingStores } from '../controllers/users/listStores.controller.js';
+import { listingForUser } from '../controllers/users/listProductsForUser.controller.js';
 
 export const route = Router();
 
@@ -20,6 +21,7 @@ export const route = Router();
 route.post('/user/create', createUser);
 route.post('/login', login);
 route.get('/stores', authMiddleware, listingStores);
+route.get('/stores/:storeId/products', authMiddleware, listingForUser);
 
 //route stores
 route.post('/requestStore', authMiddleware, newRequest);
